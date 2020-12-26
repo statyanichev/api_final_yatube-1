@@ -3,9 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, filters, mixins
 from .models import Post, Group, Follow
 from rest_framework.permissions import IsAuthenticated
-import django_filters.rest_framework
-from .permissions import IsOwnerOrReadOnly
-from .filter import IsOwnerFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import (
                           PostSerializer,
                           CommentSerializer,
@@ -13,12 +11,15 @@ from .serializers import (
                           FollowSerializer
                           )
 
+from .permissions import IsOwnerOrReadOnly
+from .filter import IsOwnerFilterBackend
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend]
     filterset_fields = ['group']
 
     def perform_create(self, serializer):

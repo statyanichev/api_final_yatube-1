@@ -27,7 +27,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('id','title',)
+        fields = '__all__'
         model = Group
 
 
